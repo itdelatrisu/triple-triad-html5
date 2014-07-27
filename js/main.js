@@ -465,9 +465,17 @@ function Game() {
 	 * Handles mouse press events.
 	 */
 	function mousePressed(e) {
-		// TODO
-//		if (button != Input.MOUSE_LEFT_BUTTON)
-//			return;
+		// only allow left click
+		var left = (function(e) {
+		    if ("buttons" in e)
+		        return event.buttons === 1;
+		    else if ("which" in event)
+		        return event.which === 1;
+		    else
+		        return event.button === 1;
+		})(e || window.event);
+		if (!left)
+			return;
 
 		// restart game
 		if (isGameOver() && (playerScore != opponentScore) &&
