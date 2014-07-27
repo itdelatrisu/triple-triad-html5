@@ -23,6 +23,7 @@ Game.Sound = {
 	BGM: ["sounds/bgm.mp3", "sounds/bgm.ogg"],
 	BACK: ["sounds/sound-back.wav"],
 	CARD: ["sounds/sound-card.wav"],
+	INVALID: ["sounds/sound-invalid.wav"],
 	SELECT: ["sounds/sound-select.wav"],
 	SPECIAL: ["sounds/sound-special.wav"],
 	START: ["sounds/sound-start.wav"],
@@ -38,6 +39,7 @@ Game.Sound = {
 		});
 		Game.Sound.BACK = new Howl({ "urls": Game.Sound.BACK, "volume": Game.settings.SOUND });
 		Game.Sound.CARD = new Howl({ "urls": Game.Sound.CARD, "volume": Game.settings.SOUND });
+		Game.Sound.INVALID = new Howl({ "urls": Game.Sound.INVALID, "volume": Game.settings.SOUND });
 		Game.Sound.SELECT = new Howl({ "urls": Game.Sound.SELECT, "volume": Game.settings.SOUND });
 		Game.Sound.SPECIAL = new Howl({ "urls": Game.Sound.SPECIAL, "volume": Game.settings.SOUND });
 		Game.Sound.START = new Howl({ "urls": Game.Sound.START, "volume": Game.settings.SOUND });
