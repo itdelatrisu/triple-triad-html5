@@ -42,5 +42,19 @@ Game.Sound = {
 		Game.Sound.SPECIAL = new Howl({ "urls": Game.Sound.SPECIAL, "volume": Game.settings.SOUND });
 		Game.Sound.START = new Howl({ "urls": Game.Sound.START, "volume": Game.settings.SOUND });
 		Game.Sound.TURN = new Howl({ "urls": Game.Sound.TURN, "volume": Game.settings.SOUND });
+	},
+
+	/**
+	 * Toggles sound and associated icon.
+	 */
+	toggle: function() {
+		var sound = document.getElementById("sound");
+		if (sound.src.indexOf("img/sound-on.png") != -1) {
+			sound.src = "img/sound-off.png";
+			Howler.mute();
+		} else {
+			sound.src = "img/sound-on.png";
+			Howler.unmute();
+		}
 	}
 }

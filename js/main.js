@@ -110,6 +110,9 @@ function Game() {
 		// mouse listener
 		window.addEventListener("mousedown", mousePressed, false);
 
+		// sound on/off
+		document.getElementById("sound").addEventListener("click", Game.Sound.toggle);
+
 		restart(true);
 	}
 
