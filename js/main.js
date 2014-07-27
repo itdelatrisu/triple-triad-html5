@@ -435,6 +435,8 @@ function Game() {
 			} else {
 				if (playCard(playerHand, selectedCard, selectedPosition))
 					Game.Sound.SELECT.play();
+				else
+					Game.Sound.INVALID.play();
 			}
 			break;
 		case "unselect":
@@ -529,6 +531,8 @@ function Game() {
 				Game.Sound.SELECT.play();
 			} else if (playCard(playerHand, selectedCard, boardPosition))
 				Game.Sound.SELECT.play();
+			else
+				Game.Sound.INVALID.play();
 			return;
 		}
 	}

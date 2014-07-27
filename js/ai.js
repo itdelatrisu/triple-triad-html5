@@ -206,10 +206,6 @@ RandomAI.prototype.update = function() {
 	this.nextPosition = spaces[Math.floor(Math.random() * spaces.length)];
 };
 
-function OffensiveAI(hand, board, elements) {
-	AI.call(this, hand, board, elements);
-}
-
 /**
  * Offensive AI.
  * Always captures the greatest number of cards with the worst card possible.
@@ -217,6 +213,10 @@ function OffensiveAI(hand, board, elements) {
  * @param {array} board the board
  * @param {array} elements the element board
  */
+function OffensiveAI(hand, board, elements) {
+	AI.call(this, hand, board, elements);
+}
+
 OffensiveAI.prototype = Object.create(AI.prototype);
 OffensiveAI.prototype.constructor = OffensiveAI;
 OffensiveAI.prototype.update = function() {
@@ -255,10 +255,6 @@ OffensiveAI.prototype.update = function() {
 		this.useMinRankDiff(spaces);
 };
 
-function DefensiveAI(hand, board, elements) {
-	AI.call(this, hand, board, elements);
-}
-
 /**
  * Defensive AI.
  * Always picks the best card position possible.
@@ -266,6 +262,10 @@ function DefensiveAI(hand, board, elements) {
  * @param {array} board the board
  * @param {array} elements the element board
  */
+function DefensiveAI(hand, board, elements) {
+	AI.call(this, hand, board, elements);
+}
+
 DefensiveAI.prototype = Object.create(AI.prototype);
 DefensiveAI.prototype.constructor = DefensiveAI;
 DefensiveAI.prototype.update = function() {
