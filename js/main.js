@@ -297,13 +297,13 @@ function Game() {
 					// change card owners and adjust score
 					if (result.isSame()) {
 						Game.Sound.SPECIAL.play();
-						cardResult(result.same);
+						cardResult(result.getSameList());
 					} else if (result.isPlus()) {
 						Game.Sound.SPECIAL.play();
-						cardResult(result.plus);
+						cardResult(result.getPlusList());
 					}
 					if (result.hasCapture())
-						cardResult(result.captured);
+						cardResult(result.getCapturedList());
 				}
 				return;
 			}
@@ -649,7 +649,7 @@ function Game() {
 	 * @param {array} resultList the list of affected cards
 	 */
 	function cardResult(resultList) {
-		var owner = result.card.owner;
+		var owner = result.getSourceCard().owner;
 		for (var i = 0, len = resultList.length; i < len; i++) {
 			var card = resultList[i];
 			if (card.owner != owner) {
