@@ -110,6 +110,10 @@ function Game() {
 		// mouse listener
 		window.addEventListener("mousedown", mousePressed, false);
 
+		// icons
+		document.getElementById("restart").addEventListener("click", restart);
+		document.getElementById("auto").addEventListener("click", keyAuto);
+
 		restart(true);
 	}
 

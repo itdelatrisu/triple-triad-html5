@@ -18,8 +18,20 @@ canvas {
 }
 #sound {
 	position: fixed;
-	right: 5px;
-	bottom: 5px;
+	right: 1%;
+	bottom: 1%;
+	height: 6%;
+}
+#restart {
+	position: fixed;
+	right: 1%;
+	bottom: 8%;
+	height: 6%;
+}
+#auto {
+	position: fixed;
+	right: 1%;
+	bottom: 15%;
 	height: 6%;
 }
 @font-face {

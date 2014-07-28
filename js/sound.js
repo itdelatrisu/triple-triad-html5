@@ -48,11 +48,11 @@ Game.Sound = {
 		// sound on/off
 		document.getElementById("sound").addEventListener("click", function() {
 			var sound = document.getElementById("sound");
-			if (sound.src.indexOf("img/sound-on.png") != -1) {
-				sound.src = "img/sound-off.png";
+			if (sound.src.indexOf("img/icon-sound-on.png") != -1) {
+				sound.src = "img/icon-sound-off.png";
 				Howler.mute();
 			} else {
-				sound.src = "img/sound-on.png";
+				sound.src = "img/icon-sound-on.png";
 				Howler.unmute();
 			}
 		});
