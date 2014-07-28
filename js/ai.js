@@ -235,7 +235,7 @@ OffensiveAI.prototype.update = function() {
 		for (var index = 0; index < handSize; index++) {
 			var c = this.hand[index];
 			var result = new CardResult(c, space, this.board, this.elements);
-			var capturedCount = result.capturedCount;
+			var capturedCount = result.getCapturedCount();
 			if (capturedCount > maxCapture ||
 				(capturedCount == maxCapture && (
 					(useLowestLevel && c.level < nextLevel) ||
@@ -302,7 +302,7 @@ BalancedAI.prototype.update = function() {
 		for (var index = 0; index < handSize; index++) {
 			var c = this.hand[index];
 			var result = new CardResult(c, space, this.board, this.elements);
-			var capturedCount = result.capturedCount;
+			var capturedCount = result.getCapturedCount();
 			var rankDiff = this.getRankDiff(c, space);
 
 			// determine whether or not to use this result...
