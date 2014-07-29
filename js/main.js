@@ -79,6 +79,9 @@ function Game() {
 	/** Card name text. */
 	var text;
 
+	/** Whether or not to force a full render. */
+	var forceRender;
+
 	this.setup = function() {
 		// scale to window dimensions
 		jaws.width = jaws.canvas.width = window.innerWidth;
@@ -118,28 +121,10 @@ function Game() {
 		restart(true);
 	}
 
-	function resize() {
-		// set new window dimensions
-		jaws.width = jaws.canvas.width = window.innerWidth;
-		jaws.height = jaws.canvas.height = window.innerHeight;
-
-		// set new card length
-		Game.CARD_LENGTH = window.innerHeight * 0.29;
-
-		// resize all images
-		for (var i = 0, len = Game.deck.length; i < len; i++)
-			Game.deck[i].resize();
-		Game.Image.resize();
-
-		// force text resize
-		text = undefined;
-	}
-
 	this.draw = function() {
-		jaws.clear();
-
 		// card loading
 		if (!init) {
+			jaws.clear();
 			for (var i = 0, len = Math.min(loadCardCount, 5); i < len; i++)
 				opponentHand[i].drawInHand(i, false);
 			if (loadCardCount >= 5) {
@@ -160,12 +145,32 @@ function Game() {
 			return;
 		}
 
+		// clear canvas
+		if (forceRender) {
+			// force a re-rendering
+			jaws.clear();
+		} else if (isGameOver() && textAlpha >= 1 && result === undefined) {
+			// game over: stop rendering
+			return;
+		} else {
+			// only clear the current player's side plus the board
+			var rectWidth = (jaws.width / 2) + (Game.CARD_LENGTH * 1.6);
+			if (turn == Game.PLAYER)
+				jaws.context.clearRect((jaws.width / 2) - (Game.CARD_LENGTH * 1.6), 0, rectWidth, jaws.height);
+			else if (turn == Game.OPPONENT)
+				jaws.context.clearRect(0, 0, rectWidth, jaws.height);
+		}
+
 		// cards (hand)
 		var noSelect = (result !== undefined || isGameOver());
-		for (var i = 0, len = playerHand.length; i < len; i++)
-			playerHand[i].drawInHand(i + (5 - len), (turn == Game.PLAYER && selectedCard == i && !noSelect));
-		for (var i = 0, len = opponentHand.length; i < len; i++)
-			opponentHand[i].drawInHand(i + (5 - len), (turn != Game.PLAYER && selectedCard == i && !noSelect));
+		if (turn == Game.PLAYER || forceRender) {
+			for (var i = 0, len = playerHand.length; i < len; i++)
+				playerHand[i].drawInHand(i + (5 - len), (turn == Game.PLAYER && selectedCard == i && !noSelect));
+		}
+		if (turn == Game.OPPONENT || forceRender) {
+			for (var i = 0, len = opponentHand.length; i < len; i++)
+				opponentHand[i].drawInHand(i + (5 - len), (turn != Game.PLAYER && selectedCard == i && !noSelect));
+		}
 
 		// cards (board)
 		for (var i = 0; i < 9; i++) {
@@ -183,18 +188,24 @@ function Game() {
 
 		// score
 		var scoreHeight = (jaws.height / 2) + (Game.CARD_LENGTH * 1.4);
-		Game.Image.SCORE[playerScore].drawCentered(
-			(jaws.width / 2) + (Game.CARD_LENGTH * 2.1), scoreHeight
-		);
-		Game.Image.SCORE[opponentScore].drawCentered(
-			(jaws.width / 2) - (Game.CARD_LENGTH * 2.1), scoreHeight
-		);
+		if (turn == Game.PLAYER || forceRender) {
+			Game.Image.SCORE[playerScore].drawCentered(
+				(jaws.width / 2) + (Game.CARD_LENGTH * 2.1), scoreHeight
+			);
+		}
+		if (turn == Game.OPPONENT || forceRender) {
+			Game.Image.SCORE[opponentScore].drawCentered(
+				(jaws.width / 2) - (Game.CARD_LENGTH * 2.1), scoreHeight
+			);
+		}
 
 		// elements
 		if (elements !== undefined) {
 			for (var i = 0; i < 9; i++)
 				Game.Element.drawOnBoard(elements[i], i, board[i]);
 		}
+
+		forceRender = false;
 
 		// card result
 		if (result !== undefined) {
@@ -323,7 +334,8 @@ function Game() {
 					}
 					if (result.hasCapture())
 						cardResult(result.getCapturedList());
-				}
+				} else
+					forceRender = true;
 				return;
 			}
 
@@ -332,6 +344,7 @@ function Game() {
 				if (!Card.isColorChange) {  // finish color change animation
 					result = undefined;
 					turn = !turn;
+					forceRender = true;
 				}
 				return;
 			}
@@ -357,6 +370,7 @@ function Game() {
 				result = undefined;
 				isCombo = false;
 				turn = !turn;
+				forceRender = true;
 			}
 			return;
 		}
@@ -557,6 +571,29 @@ function Game() {
 	}
 
 	/**
+	 * Handles window resize events.
+	 */
+	function resize() {
+		// set new window dimensions
+		jaws.width = jaws.canvas.width = window.innerWidth;
+		jaws.height = jaws.canvas.height = window.innerHeight;
+
+		// set new card length
+		Game.CARD_LENGTH = window.innerHeight * 0.29;
+
+		// resize all images
+		for (var i = 0, len = Game.deck.length; i < len; i++)
+			Game.deck[i].resize();
+		Game.Image.resize();
+
+		// force text resize
+		text = undefined;
+
+		// force full render
+		forceRender = true;
+	}
+
+	/**
 	 * Re-initializes the game.
 	 * @param {bool} newHand whether or not to generate new hands
 	 *               (e.g. false for Sudden Death)
@@ -629,6 +666,7 @@ function Game() {
 		loadCardCount = 0;
 		loadCardOffset = 3 + (jaws.height / Game.CARD_LENGTH);
 		textAlpha = 0;
+		forceRender = true;
 	}
 
 	/**
@@ -683,6 +721,7 @@ function Game() {
 			}
 		}
 		Game.Sound.TURN.play();
+		forceRender = true;
 	}
 };
 
