@@ -68,17 +68,15 @@ Game.Image = {
 	},
 
 	/**
-	 * Initiates all game images.
+	 * Initializes all game images.
 	 */
 	setup: function() {
-		var baseScale = Game.CARD_LENGTH / 256;
-
 		// card-related
 		var cards = new jaws.SpriteSheet({image: "img/card.png", frame_size: [256, 256] });
-		Game.Image.CARD_BACK = new jaws.Sprite({scale: baseScale});
-		Game.Image.CARD_RED = new jaws.Sprite({scale: baseScale});
-		Game.Image.CARD_BLUE = new jaws.Sprite({scale: baseScale});
-		Game.Image.CARD_GRAY = new jaws.Sprite({scale: baseScale});
+		Game.Image.CARD_BACK = new jaws.Sprite({});
+		Game.Image.CARD_RED = new jaws.Sprite({});
+		Game.Image.CARD_BLUE = new jaws.Sprite({});
+		Game.Image.CARD_GRAY = new jaws.Sprite({});
 		Game.Image.CARD_BACK.setImage(cards.frames[0]);
 		Game.Image.CARD_RED.setImage(cards.frames[1]);
 		Game.Image.CARD_BLUE.setImage(cards.frames[2]);
@@ -86,7 +84,6 @@ Game.Image = {
 
 		// cursor
 		Game.Image.CURSOR = new jaws.Sprite({image: "img/cursor.png"});
-		Game.Image.CURSOR.scaleTo((Game.CARD_LENGTH / 3) / Game.Image.CURSOR.width);
 
 		// element animations
 		var ele = new jaws.Animation({sprite_sheet: "img/element.png",
@@ -96,70 +93,126 @@ Game.Image = {
 			ele.slice(12, 16), ele.slice(28, 32), ele.slice(16, 20), ele.slice(8, 12)
 		];
 		for (var i = 1; i < 9; i++) {
-			Game.Element.sprite[i] = new jaws.Sprite({scale: baseScale});
+			Game.Element.sprite[i] = new jaws.Sprite({});
 			Game.Element.sprite[i].setImage(Game.Element.anim[i].next());
-			Game.Element.firstFrame[i] = new jaws.Sprite({scale: baseScale});
+			Game.Element.firstFrame[i] = new jaws.Sprite({});
 			Game.Element.firstFrame[i].setImage(Game.Element.anim[i].currentFrame());
 		}
 
 		// rank symbols
 		var rank = new jaws.SpriteSheet({image: "img/rank.png", frame_size: [32, 28] });
 		for (var i = 0; i <= 10; i++) {
-			Game.Image.RANK[i] = new jaws.Sprite({scale: baseScale});
+			Game.Image.RANK[i] = new jaws.Sprite({});
 			Game.Image.RANK[i].setImage(rank.frames[i]);
 		}
 
 		// score symbols
 		var score = new jaws.SpriteSheet({image: "img/score.png", frame_size: [96, 96] });
 		for (var i = 1; i <= 9; i++) {
-			Game.Image.SCORE[i] = new jaws.Sprite({scale: baseScale});
+			Game.Image.SCORE[i] = new jaws.Sprite({});
 			Game.Image.SCORE[i].setImage(score.frames[i - 1]);
 		}
 
 		// bonus images
 		var bonus = new jaws.SpriteSheet({image: "img/bonus.png", frame_size: [96, 64] });
-		Game.Image.BONUS_PLUS = new jaws.Sprite({scale: baseScale});
+		Game.Image.BONUS_PLUS = new jaws.Sprite({});
 		Game.Image.BONUS_PLUS.setImage(bonus.frames[0]);
-		Game.Image.BONUS_MINUS = new jaws.Sprite({scale: baseScale});
+		Game.Image.BONUS_MINUS = new jaws.Sprite({});
 		Game.Image.BONUS_MINUS.setImage(bonus.frames[1]);
 
 		// special rules
 		var special = new jaws.SpriteSheet({image: "img/special.png", frame_size: [1024, 256] });
-		Game.Image.SPECIAL_SAME = new jaws.Sprite({scale: baseScale});
+		Game.Image.SPECIAL_SAME = new jaws.Sprite({});
 		Game.Image.SPECIAL_SAME.setImage(special.frames[0]);
-		Game.Image.SPECIAL_PLUS = new jaws.Sprite({scale: baseScale});
+		Game.Image.SPECIAL_PLUS = new jaws.Sprite({});
 		Game.Image.SPECIAL_PLUS.setImage(special.frames[1]);
-		Game.Image.SPECIAL_COMBO = new jaws.Sprite({scale: baseScale});
+		Game.Image.SPECIAL_COMBO = new jaws.Sprite({});
 		Game.Image.SPECIAL_COMBO.setImage(special.frames[2]);
 
 		// results
 		var result = new jaws.SpriteSheet({image: "img/result.png", frame_size: [1024, 195] });
-		Game.Image.RESULT_WIN = new jaws.Sprite({scale: baseScale});
+		Game.Image.RESULT_WIN = new jaws.Sprite({});
 		Game.Image.RESULT_WIN.setImage(result.frames[0]);
-		Game.Image.RESULT_LOSE = new jaws.Sprite({scale: baseScale});
+		Game.Image.RESULT_LOSE = new jaws.Sprite({});
 		Game.Image.RESULT_LOSE.setImage(result.frames[1]);
-		Game.Image.RESULT_DRAW = new jaws.Sprite({scale: baseScale});
+		Game.Image.RESULT_DRAW = new jaws.Sprite({});
 		Game.Image.RESULT_DRAW.setImage(result.frames[2]);
 
 		// info box
-		var infoScale = Game.CARD_LENGTH * 2.75 / 1024;
 		Game.Image.INFO_BOX = new jaws.Sprite({image: "img/info-box.png"});
-		Game.Image.INFO_BOX.scaleTo(infoScale);
 		Game.Image.INFO_TEXT = new jaws.Sprite({image: "img/info-text.png"});
-		Game.Image.INFO_TEXT.scaleTo(infoScale);
 
 		// spinner animations
 		var spin = new jaws.Animation({sprite_sheet: "img/spinner.png",
 			frame_size: [24, 33], frame_duration: 200});
-		var spinScale = baseScale * 2.5;
 		for (var i = 0; i < 8; i++) {
 			Game.Spinner.anim[i] = spin.slice(i * 4, (i + 1) * 4);
-			Game.Spinner.sprite[i] = new jaws.Sprite({scale: spinScale});
+			Game.Spinner.sprite[i] = new jaws.Sprite({});
 			Game.Spinner.sprite[i].setImage(Game.Spinner.anim[i].next());
-			Game.Spinner.frameLeft[i] = new jaws.Sprite({scale: spinScale});
+			Game.Spinner.frameLeft[i] = new jaws.Sprite({});
 			Game.Spinner.frameLeft[i].setImage(Game.Spinner.anim[i].frames[3]);
-			Game.Spinner.frameRight[i] = new jaws.Sprite({scale: spinScale});
+			Game.Spinner.frameRight[i] = new jaws.Sprite({});
 			Game.Spinner.frameRight[i].setImage(Game.Spinner.anim[i].frames[1]);
+		}
+
+		// resize images
+		Game.Image.resize();
+	},
+
+	/**
+	 * Resizes all game images.
+	 */
+	resize: function() {
+		var baseScale = Game.CARD_LENGTH / 256;
+
+		// card-related
+		Game.Image.CARD_BACK.setScale(baseScale);
+		Game.Image.CARD_RED.setScale(baseScale);
+		Game.Image.CARD_BLUE.setScale(baseScale);
+		Game.Image.CARD_GRAY.setScale(baseScale);
+
+		// cursor
+		Game.Image.CURSOR.setScale(baseScale / 2.25);
+
+		// element animations
+		for (var i = 1; i < 9; i++) {
+			Game.Element.sprite[i].setScale(baseScale);
+			Game.Element.firstFrame[i].setScale(baseScale);
+		}
+
+		// rank symbols
+		for (var i = 0; i <= 10; i++)
+			Game.Image.RANK[i].setScale(baseScale);
+
+		// score symbols
+		for (var i = 1; i <= 9; i++)
+			Game.Image.SCORE[i].setScale(baseScale);
+
+		// bonus images
+		Game.Image.BONUS_PLUS.setScale(baseScale);
+		Game.Image.BONUS_MINUS.setScale(baseScale);
+
+		// special rules
+		Game.Image.SPECIAL_SAME.setScale(baseScale);
+		Game.Image.SPECIAL_PLUS.setScale(baseScale);
+		Game.Image.SPECIAL_COMBO.setScale(baseScale);
+
+		// results
+		Game.Image.RESULT_WIN.setScale(baseScale);
+		Game.Image.RESULT_LOSE.setScale(baseScale);
+		Game.Image.RESULT_DRAW.setScale(baseScale);
+
+		// info box
+		var infoScale = Game.CARD_LENGTH * 2.75 / 1024;
+		Game.Image.INFO_BOX.setScale(infoScale);
+		Game.Image.INFO_TEXT.setScale(infoScale);
+
+		// spinner animations
+		var spinScale = baseScale * 2.5;
+		for (var i = 0; i < 8; i++) {
+			Game.Spinner.sprite[i].setScale(spinScale);
+			Game.Spinner.frameLeft[i].setScale(spinScale);
+			Game.Spinner.frameRight[i].setScale(spinScale);
 		}
 	}
 };
