@@ -116,7 +116,7 @@ Game.deck = [
 	{"id": 92, "name": "Odin", "ranks": [8,5,10,3], "element": "NEUTRAL", "level": 9},
 	{"id": 93, "name": "Pandemona", "ranks": [10,7,1,7], "element": "WIND", "level": 9},
 	{"id": 94, "name": "Cerberus", "ranks": [7,10,4,6], "element": "NEUTRAL", "level": 9},
-	{"id": 95, "name": "Alexander", "ranks": [9,2,10,4], "element": "NEUTRAL", "level": 9},
+	{"id": 95, "name": "Alexander", "ranks": [9,2,10,4], "element": "HOLY", "level": 9},
 	{"id": 96, "name": "Phoenix", "ranks": [7,10,2,7], "element": "FIRE", "level": 9},
 	{"id": 97, "name": "Bahamut", "ranks": [10,6,8,2], "element": "NEUTRAL", "level": 9},
 	{"id": 98, "name": "Doomtrain", "ranks": [3,10,1,10], "element": "POISON", "level": 9},

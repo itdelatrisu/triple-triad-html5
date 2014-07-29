@@ -81,21 +81,19 @@ function Game() {
 
 	this.setup = function() {
 		// scale to window dimensions
-		jaws.width = window.innerWidth;
-		jaws.height = window.innerHeight;
-		jaws.canvas.width = jaws.width;
-		jaws.canvas.height = jaws.height;
+		jaws.width = jaws.canvas.width = window.innerWidth;
+		jaws.height = jaws.canvas.height = window.innerHeight;
 
 		// use smooth antialiased scaling
 		jaws.useSmoothScaling();
+
+		// initialize game images
+		Game.Image.setup();
 
 		// prevent default key actions
 		jaws.preventDefaultKeys([
 			"z", "enter", "x", "backspace", "f1", "f5",
 			"up", "down", "left", "right"]);
-
-		// initiate game images
-		Game.Image.setup();
 
 		// key bindings
 		jaws.on_keydown(["z", "enter"], keySelect);
@@ -111,10 +109,30 @@ function Game() {
 		window.addEventListener("mousedown", mousePressed, false);
 
 		// icons
-		document.getElementById("restart").addEventListener("click", restart);
-		document.getElementById("auto").addEventListener("click", keyAuto);
+		document.getElementById("restart").addEventListener("click", restart, false);
+		document.getElementById("auto").addEventListener("click", keyAuto, false);
+
+		// resize listener
+	    window.addEventListener("resize", resize, false);
 
 		restart(true);
+	}
+
+	function resize() {
+		// set new window dimensions
+		jaws.width = jaws.canvas.width = window.innerWidth;
+		jaws.height = jaws.canvas.height = window.innerHeight;
+
+		// set new card length
+		Game.CARD_LENGTH = window.innerHeight * 0.29;
+
+		// resize all images
+		for (var i = 0, len = Game.deck.length; i < len; i++)
+			Game.deck[i].resize();
+		Game.Image.resize();
+
+		// force text resize
+		text = undefined;
 	}
 
 	this.draw = function() {
@@ -380,7 +398,7 @@ function Game() {
 
 	/**
 	 * Handles key press events.
-	 * @param {string} keyPress the key pressed
+	 * @param {string} key the key pressed
 	 */
 	function keyPress(key) {
 		if ((isGameOver() && (playerScore != opponentScore) &&

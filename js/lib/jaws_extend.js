@@ -10,15 +10,16 @@ jaws.Sprite.prototype.drawCentered = function(x, y) {
 	this.drawAt(x - (this.width / 2), y - (this.height / 2));
 }
 
-/** Sets scale factor based on original dimensions. */
+/** Resizes sprite using the given base scale factor. */
 jaws.Sprite.prototype.setScale = function(value) {
-	if (this.originalWidth === undefined || this.originalHeight === undefined) {
-		this.originalWidth = this.width;
-		this.originalHeight = this.height;
-	}
-	this.scale_x = value * this.originalWidth / this.image.width;
-	this.scale_y = value * this.originalHeight / this.image.height;
-	return this.cacheOffsets();
+	this.baseScale = value;
+	this.scaleTo(value);
+}
+
+/** Resizes sprite, taking into account the base scale factor. */
+jaws.Sprite.prototype.scaleToBase = function(value) {
+	var baseScale = this.baseScale || 1;
+	this.scaleTo(value * baseScale);
 }
 
 /** Draw scaled sprite on active canvas at a location. */
@@ -26,9 +27,9 @@ jaws.Sprite.prototype.drawScaledAt = function(x, y, scale) {
 	if (scale == 1)
 		this.drawAt(x, y);
 	else {
-		this.setScale(scale);
+		this.scaleToBase(scale);
 		this.drawAt(x, y);
-		this.setScale(1);
+		this.scaleToBase(1);
 	}
 }
 
@@ -37,8 +38,8 @@ jaws.Sprite.prototype.drawScaledCentered = function(x, y, scale) {
 	if (scale == 1)
 		this.drawCentered(x, y);
 	else {
-		this.setScale(scale);
+		this.scaleToBase(scale);
 		this.drawCentered(x, y);
-		this.setScale(1);
+		this.scaleToBase(1);
 	}
 }

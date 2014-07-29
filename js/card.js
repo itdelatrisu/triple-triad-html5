@@ -98,11 +98,18 @@ Card.prototype = {
 	 * Loads the image sprite (if not already loaded).
 	 */
 	loadImage: function() {
-		// create sprite if it doesn't exist
 		if (this.img === undefined) {
 			this.img = new jaws.Sprite({image: this.getFileName()});
-			this.img.resizeTo(Game.CARD_LENGTH, Game.CARD_LENGTH);
+			this.resize();
 		}
+	},
+
+	/**
+	 * Resizes the image sprite.
+	 */
+	resize: function() {
+		if (this.img !== undefined)
+			this.img.setScale(Game.CARD_LENGTH / 256);
 	},
 
 	/**
