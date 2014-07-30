@@ -1,9 +1,15 @@
+@font-face {
+	font-family: "Open Sans Light";
+	src: url("fonts/OpenSans-Light.ttf");
+}
 body {
 	width: 100%;
 	height: 100%;
-	margin: 0px;
+	margin: 0;
 	overflow: hidden;
 	background-color: #000000;
+	font-family: Open Sans Light;
+	font-size: 100%;
 }
 canvas {
 	padding-left: 0;
@@ -26,7 +32,10 @@ img {
 	-webkit-transition: opacity .2s ease-in-out;
 }
 img:hover {
-   opacity: 1;
+	opacity: 1;
+}
+#rules {
+	top: 1%;
 }
 #sound {
 	bottom: 1%;
@@ -37,7 +46,40 @@ img:hover {
 #auto {
 	bottom: 15%;
 }
-@font-face {
-    font-family: "Open Sans Light";
-    src: url("fonts/OpenSans-Light.ttf");
+
+/* Author: http://stackoverflow.com/questions/7577308/ */
+#rules_popup {
+	position: fixed;
+	top: -2000px;
+	width: auto;
+	right: 0;
+	opacity: 0;
+	background: #eee;
+	padding: 10px;
+	text-align: right;
+	-webkit-transition-property: opacity, right, top;
+	-webkit-transition-duration: 0.5s, 0.5s, 0s;
+	-webkit-transition-delay: 0s, 0s, 0.5s;
+	-ms-transition-property: opacity, right, top;
+	-ms-transition-duration: 0.5s, 0.5s, 0s;
+	-ms-transition-delay: 0s, 0s, 0.5s;
+	-moz-transition-property: opacity, right, top;
+	-moz-transition-duration: 0.5s, 0.5s, 0s;
+	-moz-transition-delay: 0s, 0s, 0.5s;
+	transition-property: opacity, right, top;
+	transition-duration: 0.5s, 0.5s, 0s;
+	transition-delay: 0s, 0s, 0.5s;
+}
+#rules_popup:empty {
+	padding: 0px;
+}
+#rules:hover + #rules_popup,
+#rules_popup:hover {
+	top: 8%;
+	right: 1%;
+	opacity: 1;
+	-webkit-transition-delay: 0s;
+	-ms-transition-delay: 0s;
+	-moz-transition-delay: 0s;
+	transition-delay: 0s;
 }
