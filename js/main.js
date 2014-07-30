@@ -415,7 +415,7 @@ function Game() {
 	 * @param {string} key the key pressed
 	 */
 	function keyPress(key) {
-		if ((isGameOver() && (playerScore != opponentScore) &&
+		if ((isGameOver() && (playerScore != opponentScore || !Game.rules.SUDDEN_DEATH) &&
 			textAlpha >= 1 && result === undefined && key == "select")) {
 			restart(true);
 			return;
@@ -513,7 +513,7 @@ function Game() {
 			return;
 
 		// restart game
-		if (isGameOver() && (playerScore != opponentScore) &&
+		if (isGameOver() && (playerScore != opponentScore || !Game.rules.SUDDEN_DEATH) &&
 			textAlpha >= 1 && result === undefined) {
 			restart(true);
 			return;
@@ -745,6 +745,9 @@ function shuffle(o) {
 };
 
 window.onload = function() {
+	// add game rules to popup display
+	Game.updateRuleDisplay();
+
 	// turn deck elements into Card objects
 	for (var i = 0, len = Game.deck.length; i < len; i++) {
 		Game.deck[i] = new Card(Game.deck[i]);
