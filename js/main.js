@@ -93,11 +93,6 @@ function Game() {
 		// initialize game images
 		Game.Image.setup();
 
-		// prevent default key actions
-		jaws.preventDefaultKeys([
-			"z", "enter", "x", "backspace", "f1", "f5",
-			"up", "down", "left", "right"]);
-
 		// key bindings
 		jaws.on_keydown(["z", "enter"], keySelect);
 		jaws.on_keydown(["x", "backspace"], keyUnselect);
@@ -107,13 +102,15 @@ function Game() {
 		jaws.on_keydown("right", keyRight);
 		jaws.on_keydown("f1", keyAuto);
 		jaws.on_keydown("f5", keyRestart);
+		jaws.on_keydown("esc", togglePause);
 
 		// mouse listener
 		window.addEventListener("mousedown", mousePressed, false);
 
 		// icons
-		document.getElementById("restart").addEventListener("click", restart, false);
+		document.getElementById("restart").addEventListener("click", keyRestart, false);
 		document.getElementById("auto").addEventListener("click", keyAuto, false);
+		document.getElementById("pause").addEventListener("click", togglePause, false);
 
 		// resize listener
 	    window.addEventListener("resize", resize, false);
@@ -142,6 +139,7 @@ function Game() {
 				var spinSprite = ((turn == Game.PLAYER) ? Game.Spinner.frameRight[spinner] : Game.Spinner.frameLeft[spinner]);
 				spinSprite.drawCentered(jaws.width / 2, jaws.height / 2);
 			}
+			drawPauseOverlay();
 			return;
 		}
 
@@ -151,6 +149,7 @@ function Game() {
 			jaws.clear();
 		} else if (isGameOver() && textAlpha >= 1 && result === undefined) {
 			// game over: stop rendering
+			drawPauseOverlay();
 			return;
 		} else {
 			// only clear the current player's side plus the board
@@ -220,6 +219,7 @@ function Game() {
 				img.alpha = textAlpha;
 				img.drawCentered(jaws.width / 2, jaws.height / 2);
 			}
+			drawPauseOverlay();
 			return;
 		}
 
@@ -231,6 +231,7 @@ function Game() {
 				                                Game.Image.RESULT_DRAW;
 			img.alpha = textAlpha;
 			img.drawCentered(jaws.width / 2, jaws.height / 2);
+			drawPauseOverlay();
 			return;
 		}
 
@@ -275,6 +276,8 @@ function Game() {
 				text.draw();
 			}
 		}
+
+		drawPauseOverlay();
 	}
 
 	this.update = function() {
@@ -415,6 +418,9 @@ function Game() {
 	 * @param {string} key the key pressed
 	 */
 	function keyPress(key) {
+		if (Game.isPaused)
+			return;
+
 		if ((isGameOver() && (playerScore != opponentScore || !Game.rules.SUDDEN_DEATH) &&
 			textAlpha >= 1 && result === undefined && key == "select")) {
 			restart(true);
@@ -494,12 +500,15 @@ function Game() {
 	function keyLeft() { keyPress("left"); }
 	function keyRight() { keyPress("right"); }
 	function keyAuto() { keyPress("auto"); }
-	function keyRestart() { restart(true); }
+	function keyRestart() { if (!Game.isPaused) restart(true); }
 
 	/**
 	 * Handles mouse press events.
 	 */
 	function mousePressed(e) {
+		if (Game.isPaused)
+			return;
+
 		// only allow left click
 		var left = (function(e) {
 		    if ("buttons" in e)
@@ -591,6 +600,45 @@ function Game() {
 
 		// force full render
 		forceRender = true;
+
+		// render at least once even if the game is paused
+		if (Game.isPaused)
+			jaws.game_state.draw();
+	}
+
+	/**
+	 * Toggles the pause state of the game.
+	 */
+	function togglePause() {
+		Game.isPaused = !Game.isPaused;
+		var icon = document.getElementById("pause");
+		var popup = document.getElementById("pause_popup");
+		if (Game.isPaused) {
+			icon.src = "img/icon-pause.png";
+			jaws.game_loop.pause();
+			if (!Game.isMuted)
+				Howler.mute();
+			jaws.game_state.draw();
+			popup.classList.add("pause_text");
+		} else {
+			icon.src = "img/icon-play.png";
+			jaws.game_loop.unpause();
+			if (!Game.isMuted)
+				Howler.unmute();
+			forceRender = true;
+			popup.classList.remove("pause_text");
+		}
+	}
+
+	/**
+	 * Draws a pause overlay (only if the game is paused).
+	 */
+	function drawPauseOverlay() {
+		if (!Game.isPaused)
+			return;
+
+		jaws.context.fillStyle = "rgba(0, 0, 0, 0.8)";
+		jaws.context.fillRect(0, 0, jaws.width, jaws.height);
 	}
 
 	/**
@@ -732,6 +780,12 @@ Game.OPPONENT = false;
 /** Card length. */
 Game.CARD_LENGTH = window.innerHeight * 0.29;
 
+/** Whether or not the game is paused. */
+Game.isPaused = false;
+
+/** Whether or not game sounds are muted. */
+Game.isMuted = false;
+
 /**
  * Shuffles an array.
  * @param {array} o the array
@@ -745,6 +799,11 @@ function shuffle(o) {
 };
 
 window.onload = function() {
+	// prevent default key actions
+	jaws.preventDefaultKeys([
+		"z", "enter", "x", "backspace", "f1", "f5", "esc",
+		"up", "down", "left", "right"]);
+
 	// add game rules to popup display
 	Game.updateRuleDisplay();
 
