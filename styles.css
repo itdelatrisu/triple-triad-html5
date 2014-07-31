@@ -20,16 +20,17 @@ body {
 	-o-user-select: none;
 	user-select: none;
 }
+body:after {
+	/* preload images */
+	content: url("img/board-mat.jpg") url("img/icon-pause.png") url("img/icon-sound-off.png");
+	display: none;
+}
 canvas {
 	padding-left: 0;
 	padding-right: 0;
 	margin-left: auto;
 	margin-right: auto;
 	display: block;
-	background-image: url("img/board-mat.jpg");
-	background-size: auto 100%;
-	background-repeat: no-repeat;
-	background-position: center;
 }
 img {
 	position: fixed;

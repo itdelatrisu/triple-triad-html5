@@ -87,6 +87,13 @@ function Game() {
 		jaws.width = jaws.canvas.width = window.innerWidth;
 		jaws.height = jaws.canvas.height = window.innerHeight;
 
+		// set the background
+		var style = document.body.style;
+		style.backgroundImage = "url(img/board-mat.jpg)";
+		style.backgroundSize = "auto 100%";
+		style.backgroundRepeat = "no-repeat";
+		style.backgroundPosition = "center";
+
 		// use smooth antialiased scaling
 		jaws.useSmoothScaling();
 
@@ -113,7 +120,7 @@ function Game() {
 		document.getElementById("pause").addEventListener("click", togglePause, false);
 
 		// resize listener
-	    window.addEventListener("resize", resize, false);
+		window.addEventListener("resize", resize, false);
 
 		restart(true);
 	}
@@ -815,5 +822,6 @@ window.onload = function() {
 
 	Game.Image.addAssets();
 	Game.Sound.setup();
+
 	jaws.start(Game, {fps: Game.settings.FPS});
 }
