@@ -47,13 +47,18 @@ Game.Sound = {
 
 		// sound on/off
 		document.getElementById("sound").addEventListener("click", function() {
+			if (Game.isPaused)
+				return;
+
 			var sound = document.getElementById("sound");
-			if (sound.src.indexOf("img/icon-sound-on.png") != -1) {
+			if (!Game.isMuted) {
 				sound.src = "img/icon-sound-off.png";
 				Howler.mute();
+				Game.isMuted = true;
 			} else {
 				sound.src = "img/icon-sound-on.png";
 				Howler.unmute();
+				Game.isMuted = false;
 			}
 		});
 	},

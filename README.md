@@ -15,6 +15,7 @@ In addition to mouse input, the following keys are supported:
  * **Unselect**: X or Backspace
  * **New Game**: F5
  * **Automatic Move**: F1
+ * **Pause**: Esc
 
 ## Credits
 This software was created by Jeffrey Han 

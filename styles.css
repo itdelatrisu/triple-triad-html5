@@ -1,6 +1,10 @@
 @font-face {
 	font-family: "Open Sans Light";
-	src: url("fonts/OpenSans-Light.ttf");
+	src: url('fonts/opensans-light-webfont.eot');
+	src: url('fonts/opensans-light-webfont.eot?#iefix') format('embedded-opentype'),
+	     url('fonts/opensans-light-webfont.woff') format('woff'),
+	     url('fonts/opensans-light-webfont.ttf') format('truetype'),
+	     url('fonts/opensans-light-webfont.svg#open_sanslight') format('svg');
 }
 body {
 	width: 100%;
@@ -10,6 +14,11 @@ body {
 	background-color: #000000;
 	font-family: Open Sans Light;
 	font-size: 100%;
+	-moz-user-select: -moz-none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	-o-user-select: none;
+	user-select: none;
 }
 canvas {
 	padding-left: 0;
@@ -30,9 +39,14 @@ img {
 	transition: opacity .2s ease-in-out;
 	-moz-transition: opacity .2s ease-in-out;
 	-webkit-transition: opacity .2s ease-in-out;
+	cursor: crosshair;
 }
 img:hover {
 	opacity: 1;
+}
+#pause {
+	top: 1%;
+	left: 1%;
 }
 #rules {
 	top: 1%;
@@ -48,11 +62,10 @@ img:hover {
 }
 
 /* Author: http://stackoverflow.com/questions/7577308/ */
-#rules_popup {
+.popup {
 	position: fixed;
 	top: -2000px;
 	width: auto;
-	right: 0;
 	opacity: 0;
 	background: #eee;
 	padding: 10px;
@@ -70,13 +83,30 @@ img:hover {
 	transition-duration: 0.5s, 0.5s, 0s;
 	transition-delay: 0s, 0s, 0.5s;
 }
-#rules_popup:empty {
+.popup:empty {
 	padding: 0px;
+}
+#rules_popup {
+	right: 0;
+	cursor: pointer;
+}
+#pause_popup {
+	left: 1%;
+	cursor: default;
+	font-weight: bold;
 }
 #rules:hover + #rules_popup,
 #rules_popup:hover {
 	top: 8%;
 	right: 1%;
+	opacity: 1;
+	-webkit-transition-delay: 0s;
+	-ms-transition-delay: 0s;
+	-moz-transition-delay: 0s;
+	transition-delay: 0s;
+}
+.pause_text {
+	top: 8%;
 	opacity: 1;
 	-webkit-transition-delay: 0s;
 	-ms-transition-delay: 0s;
