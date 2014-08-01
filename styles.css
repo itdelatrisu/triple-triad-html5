@@ -49,8 +49,11 @@ img:hover {
 	top: 1%;
 	left: 1%;
 }
-#rules {
+#info {
 	top: 1%;
+}
+#rules {
+	top: 8%;
 }
 #sound {
 	bottom: 1%;
@@ -98,7 +101,7 @@ img:hover {
 }
 #rules:hover + #rules_popup,
 #rules_popup:hover {
-	top: 8%;
+	top: 15%;
 	right: 1%;
 	opacity: 1;
 	-webkit-transition-delay: 0s;

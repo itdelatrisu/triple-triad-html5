@@ -118,6 +118,10 @@ function Game() {
 		document.getElementById("restart").addEventListener("click", keyRestart, false);
 		document.getElementById("auto").addEventListener("click", keyAuto, false);
 		document.getElementById("pause").addEventListener("click", togglePause, false);
+		document.getElementById("info").addEventListener("click", function() {
+			if (!Game.isPaused)
+				togglePause();
+		}, false);
 
 		// resize listener
 		window.addEventListener("resize", resize, false);
