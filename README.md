@@ -30,8 +30,10 @@ Game images used in this project are part of FFVIII mods by MCINDUS:
  * [SeeD Reborn v3.2](http://forums.qhimm.com/index.php?topic=15320.0)
 
 Character sprites were created by
-[UltimeciaFFB](http://ultimeciaffb.deviantart.com/), and sound effects were
-extracted by [TekkamanChronos](http://www.youtube.com/watch?v=xKzxcJLiitQ).
+[UltimeciaFFB](http://ultimeciaffb.deviantart.com/), and icons are part of the
+[Web0.2ama](http://chrfb.deviantart.com/art/Web0-2ama-165156124) pack by chrfb.
+Sound effects were extracted by
+[TekkamanChronos](http://www.youtube.com/watch?v=xKzxcJLiitQ).
 
 ## License
 **This software is licensed under GNU GPL version 3.**
