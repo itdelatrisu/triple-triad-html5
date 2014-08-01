@@ -404,7 +404,7 @@ function Game() {
 		// opponent turn
 		if (turn == Game.OPPONENT) {
 			if (timer == 0) {  // calculate next move
-				opponentAI.update();
+				opponentAI.update(opponentScore, playerScore);
 				timer += delta;
 			} else if (timer < WAIT_TIME) {  // delay, move card
 				var nextIndex = opponentAI.nextIndex;
@@ -492,7 +492,7 @@ function Game() {
 			}
 			break;
 		case "auto":
-			playerAI.update();
+			playerAI.update(playerScore, opponentScore);
 			selectedCard = playerAI.nextIndex;
 			selectedPosition = playerAI.nextPosition;
 			playCard(playerHand, selectedCard, selectedPosition);

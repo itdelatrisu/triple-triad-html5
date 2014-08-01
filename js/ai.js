@@ -46,8 +46,10 @@ AI.prototype = {
 
 	/**
 	 * Calculates the next card index and position.
+	 * @param {int} thisScore the AI's score [1, 9]
+	 * @param {int} thatScore the opposing player's score [1, 9]
 	 */
-	update: function() {},
+	update: function(thisScore, thatScore) {},
 
 	/**
 	 * Returns a list containing all empty board positions [0, 8].
@@ -200,7 +202,7 @@ function RandomAI(hand, board, elements) {
 
 RandomAI.prototype = Object.create(AI.prototype);
 RandomAI.prototype.constructor = RandomAI;
-RandomAI.prototype.update = function() {
+RandomAI.prototype.update = function(thisScore, thatScore) {
 	var spaces = this.emptySpaces();
 	this.nextIndex = Math.floor(Math.random() * this.hand.length);
 	this.nextPosition = spaces[Math.floor(Math.random() * spaces.length)];
@@ -219,10 +221,10 @@ function OffensiveAI(hand, board, elements) {
 
 OffensiveAI.prototype = Object.create(AI.prototype);
 OffensiveAI.prototype.constructor = OffensiveAI;
-OffensiveAI.prototype.update = function() {
+OffensiveAI.prototype.update = function(thisScore, thatScore) {
 	var spaces = this.emptySpaces();
-	var spacesCount = spaces.length;
 	var handSize = this.hand.length;
+	var spacesCount = spaces.length;
 
 	// use lowest level card possible, except if starting second and on last turn
 	var useLowestLevel = ((spacesCount % 2 > 0) || handSize != 2);
@@ -268,7 +270,7 @@ function DefensiveAI(hand, board, elements) {
 
 DefensiveAI.prototype = Object.create(AI.prototype);
 DefensiveAI.prototype.constructor = DefensiveAI;
-DefensiveAI.prototype.update = function() {
+DefensiveAI.prototype.update = function(thisScore, thatScore) {
 	this.useMinRankDiff(this.emptySpaces());
 };
 
@@ -285,13 +287,16 @@ function BalancedAI(hand, board, elements) {
 
 BalancedAI.prototype = Object.create(AI.prototype);
 BalancedAI.prototype.constructor = BalancedAI;
-BalancedAI.prototype.update = function() {
+BalancedAI.prototype.update = function(thisScore, thatScore) {
 	var spaces = this.emptySpaces();
 	var spacesCount = spaces.length;
 	var handSize = this.hand.length;
 
 	// use lowest level card possible, except if starting second and on last turn
 	var useLowestLevel = ((spacesCount % 2 > 0) || handSize != 2);
+
+	// if losing, use less placement restrictions
+	var isLosing = (thisScore < thatScore);
 
 	// find move with max number of captured cards
 	var maxCapture = -1;
@@ -310,7 +315,7 @@ BalancedAI.prototype.update = function() {
 			if (maxCapture == -1)
 				isValid = true;
 			else if (capturedCount > maxCapture) {
-				if ((capturedCount > 2) || nextRankDiff - rankDiff > -5)
+				if (capturedCount > 2 || nextRankDiff - rankDiff > -5 || isLosing)
 					isValid = true;
 			} else if (capturedCount == maxCapture) {
 				if (rankDiff < nextRankDiff ||
@@ -320,7 +325,7 @@ BalancedAI.prototype.update = function() {
 					)
 				))
 					isValid = true;
-			} else if (capturedCount == maxCapture - 1) {
+			} else if (capturedCount == maxCapture - 1 && !isLosing) {
 				if (nextRankDiff - rankDiff > 5)
 					isValid = true;
 			}
