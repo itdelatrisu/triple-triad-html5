@@ -60,7 +60,7 @@ Game.Image = {
 	 */
 	addAssets: function() {
 		var files = [
-			"bonus", "card", "element", "rank", "result", "score",
+			"bonus", "card", "card-back", "element", "rank", "result", "score",
 			"special", "spinner", "cursor", "info-box", "info-text"
 		];
 		for (var i = 0, len = files.length; i < len; i++)
@@ -72,15 +72,14 @@ Game.Image = {
 	 */
 	setup: function() {
 		// card-related
+		Game.Image.CARD_BACK = new jaws.Sprite({image: "img/card-back.png"});
 		var cards = new jaws.SpriteSheet({image: "img/card.png", frame_size: [256, 256] });
-		Game.Image.CARD_BACK = new jaws.Sprite({});
 		Game.Image.CARD_RED = new jaws.Sprite({});
 		Game.Image.CARD_BLUE = new jaws.Sprite({});
 		Game.Image.CARD_GRAY = new jaws.Sprite({});
-		Game.Image.CARD_BACK.setImage(cards.frames[0]);
-		Game.Image.CARD_RED.setImage(cards.frames[1]);
-		Game.Image.CARD_BLUE.setImage(cards.frames[2]);
-		Game.Image.CARD_GRAY.setImage(cards.frames[3]);
+		Game.Image.CARD_RED.setImage(cards.frames[0]);
+		Game.Image.CARD_BLUE.setImage(cards.frames[1]);
+		Game.Image.CARD_GRAY.setImage(cards.frames[2]);
 
 		// cursor
 		Game.Image.CURSOR = new jaws.Sprite({image: "img/cursor.png"});
