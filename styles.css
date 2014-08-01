@@ -55,14 +55,14 @@ img:hover {
 #rules {
 	top: 8%;
 }
-#sound {
-	bottom: 1%;
+#auto {
+	bottom: 15%;
 }
 #restart {
 	bottom: 8%;
 }
-#auto {
-	bottom: 15%;
+#sound {
+	bottom: 1%;
 }
 
 /* Author: http://stackoverflow.com/questions/7577308/ */
