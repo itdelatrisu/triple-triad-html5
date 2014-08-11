@@ -34,8 +34,11 @@ Game.Sound = {
 	 */
 	setup: function() {
 		Game.Sound.BGM = new Howl({
-			"urls": Game.Sound.BGM, "buffer": false, "autoplay": true,
-			"loop": true, "volume": Game.settings.MUSIC
+			"urls": Game.Sound.BGM,
+			"buffer": false,
+			"autoplay": true,
+			"loop": true,
+			"volume": Game.settings.MUSIC
 		});
 		Game.Sound.BACK = new Howl({ "urls": Game.Sound.BACK, "volume": Game.settings.SOUND });
 		Game.Sound.CARD = new Howl({ "urls": Game.Sound.CARD, "volume": Game.settings.SOUND });
@@ -47,17 +50,16 @@ Game.Sound = {
 
 		// sound on/off
 		document.getElementById("sound").addEventListener("click", function() {
-			if (Game.isPaused)
-				return;
-
 			var sound = document.getElementById("sound");
 			if (!Game.isMuted) {
 				sound.src = "img/icon-sound-off.png";
-				Howler.mute();
+				if (!Game.isPaused)
+					Howler.mute();
 				Game.isMuted = true;
 			} else {
 				sound.src = "img/icon-sound-on.png";
-				Howler.unmute();
+				if (!Game.isPaused)
+					Howler.unmute();
 				Game.isMuted = false;
 			}
 		});
